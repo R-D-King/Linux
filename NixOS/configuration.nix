@@ -131,22 +131,26 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  pkgs.amberol  #A small and simple sound and music player
-  pkgs.vlc
-  pkgs.libreoffice-fresh
-  pkgs.vscode
-  pkgs.rustup  #The Rust toolchain installer
-  pkgs.gcc  #The GNU Compiler Collection
+  amberol  #A small and simple sound and music player
+  vlc
+  libreoffice-fresh
+  vscode
+  rustup  #The Rust toolchain installer
+  gcc  #The GNU Compiler Collection
+  github-desktop
+  meld  #Visual diff and merge tool
   
-  #pkgs.qbittorrent
-  #pkgs.uget  #Downlaod Manager
-  #pkgs.kdePackages.okular  #KDE document viewer
-  #pkgs.obsidian  #private and flexible writing app
-  #pkgs.mkvtoolnix  #Cross-platform tools for Matroska
-  #pkgs.handbrake  #A tool for converting video files and ripping DVDs
-  #pkgs.haruna  #Open source video player built with Qt/QML and libmpv
-  #pkgs.mpv  #General-purpose media player, fork of MPlayer and mplayer2
-  #pkgs.thunderbird  #A full-featured e-mail client
+  
+  #brave  #Privacy-oriented browser
+  #qbittorrent
+  #uget  #Downlaod Manager
+  #kdePackages.okular  #KDE document viewer
+  #obsidian  #private and flexible writing app
+  #mkvtoolnix  #Cross-platform tools for Matroska
+  #handbrake  #A tool for converting video files and ripping DVDs
+  #haruna  #Open source video player built with Qt/QML and libmpv
+  #mpv  #General-purpose media player, fork of MPlayer and mplayer2
+  #thunderbird  #A full-featured e-mail client
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
