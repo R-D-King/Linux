@@ -1,0 +1,72 @@
+#You can then upgrade NixOS to the latest version in your chosen channel by running
+
+$ sudo nixos-rebuild switch --upgrade
+
+
+
+$ sudo nix-env -p /nix/var/nix/profiles/system --list-generations
+
+$ nix-collect-garbage  --delete-old
+
+$ nix-collect-garbage  --delete-generations 1 2 3
+
+
+# recommeneded to sometimes run as sudo to collect additional garbage
+$ sudo nix-collect-garbage -d
+
+
+# As a separation of concerns - you will need to run this command to clean out boot
+$ sudo /run/current-system/bin/switch-to-configuration boot
+
+
+
+
+#unused packages can be deleted safely by running the garbage collector:
+
+$ nix-collect-garbage
+
+#This deletes all packages that aren’t in use by any user profile or by a currently running program.
+
+
+#remove unneeded parts of gnome ::: https://wiki.postmarketos.org/wiki/GNOME_apps
+environment.gnome.excludePackages = with pkgs.gnome; [
+baobab # disk usage analyzer
+epiphany # web browser
+simple-scan # document scanner
+totem # video player
+yelp # help viewer
+evince # document viewer
+geary # email clientw
+pkgs.gedit # text editor
+gnome-calculator
+gnome-contacts
+gnome-logs
+gnome-maps
+gnome-music
+gnome-calendar
+gnome-screenshot
+gnome-system-monitor
+pkgs.gnome-connections
+pkgs.gnome-console
+]; 
+
+#OR
+
+{
+  environment.gnome.excludePackages = (with pkgs; [
+    # for packages that are pkgs.*
+    gnome-tour
+    gnome-connections
+  ]) ++ (with pkgs.gnome; [
+    # for packages that are pkgs.gnome.*
+    epiphany # web browser
+    geary # email reader
+    evince # document viewer
+  ]);
+}
+
+
+#Running Unfree packages in nix shell
+nixpkgs.config.allowUnfree = true; 
+$ mkdir -p ~/.config/nixpkgs
+$ echo “{ allowUnfree = true; }” >> ~/.config/nixpkgs/config.nix
