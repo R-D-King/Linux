@@ -3,6 +3,18 @@
 ```bash
 sudo nixos-rebuild switch --upgrade
 ```
+
+### Rollbacks
+```bash
+nixos-rebuild switch --rollback
+```
+
+### Safe to test changes
+
+```bash
+nixos-rebuild test
+```
+
 ### list all available generations
 ```bash
 sudo nix-env -p /nix/var/nix/profiles/system --list-generations
