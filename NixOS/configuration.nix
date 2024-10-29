@@ -1,4 +1,4 @@
-																																																																																																																																																																																																						# Edit this configuration file to define what should be installed on
+# Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
@@ -11,9 +11,8 @@
     ];
 
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -44,41 +43,22 @@
   };
 
   # Enable the X11 windowing system.
+  # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
-  
-  # Load nvidia driver for Xorg and Wayland
-  #services.xserver.videoDrivers = ["nvidia"];
-  
-  services.xserver.excludePackages = [ 
-  pkgs.xterm 
-  ];
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  
-  #remove unneeded parts of gnome
-  environment.gnome.excludePackages = with pkgs.gnome; [
-  epiphany # web browser
-  baobab # disk usage analyzer
-  simple-scan # document scanner
-  totem # video player
-  yelp # help viewer
-  geary # email client
-  gnome-weather
-  gnome-contacts
-  gnome-logs
-  gnome-maps
-  gnome-music
-  gnome-calendar
-  pkgs.gnome-connections
-  pkgs.gnome-tour
-  ]; 
+  # Enable the KDE Plasma Desktop Environment.
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
+
+  # Excluding applications from the default Plasma 6 install
+  environment.plasma6.excludePackages = with pkgs.kdePackages; [
+  elisa
+];
 
   # Configure keymap in X11
   services.xserver.xkb = {
-    layout = "us";
-    variant = "";
+    layout = "us,ara";
+    variant = ",";
   };
 
   # Enable CUPS to print documents.
@@ -109,47 +89,42 @@
     description = "King";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
+    #  kdePackages.kate
     #  thunderbird
     ];
   };
 
   # Install firefox.
   programs.firefox.enable = true;
-  
+
   # Install git
   programs.git.enable = true;
 
-  #Install docker
-  #virtualisation.docker.enable = true;
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  
-  # Enable VirtualBox Guest Additions
-  virtualisation.virtualbox.guest.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  amberol  #A small and simple sound and music player
-  vlc
-  libreoffice-fresh
-  vscode
-  rustup  #The Rust toolchain installer
-  gcc  #The GNU Compiler Collection
-  github-desktop
-  meld  #Visual diff and merge tool
-  
-  
+    amberol
+    mpv
+    vscode
+    github-desktop
+    obsidian
+    meld
+    rustup
+    gcc
+    localsend
+
+
+  #libreoffice-fresh
+  #resonance  Intuitive GTK4/LibAdwaita music player
   #brave  #Privacy-oriented browser
   #qbittorrent
   #uget  #Downlaod Manager
-  #kdePackages.okular  #KDE document viewer
-  #obsidian  #private and flexible writing app
   #mkvtoolnix  #Cross-platform tools for Matroska
   #handbrake  #A tool for converting video files and ripping DVDs
   #haruna  #Open source video player built with Qt/QML and libmpv
-  #mpv  #General-purpose media player, fork of MPlayer and mplayer2
   #thunderbird  #A full-featured e-mail client
   ];
 
@@ -167,8 +142,8 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 53317 ];
+  networking.firewall.allowedUDPPorts = [ 53317 ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 

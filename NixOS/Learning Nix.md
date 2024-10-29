@@ -87,6 +87,16 @@ pkgs.gnome-console
 }
 ```
 
+### Excluding applications from the default Plasma 6 install: [apps list](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/nixos/modules/services/desktop-managers/plasma6.nix#L136-L149)
+
+```nix
+environment.plasma6.excludePackages = with pkgs.kdePackages; [
+  plasma-browser-integration
+  konsole
+  elisa
+];
+```
+
 
 ### Running Unfree packages in nix shell
 ```nix
@@ -97,4 +107,31 @@ mkdir -p ~/.config/nixpkgs
 ```
 ```bash
 echo “{ allowUnfree = true; }” >> ~/.config/nixpkgs/config.nix
+```
+
+### LocalSend
+you need to open the port to send and receive files
+```nix
+# Open ports in the firewall.
+  networking.firewall.allowedTCPPorts = [ 53317 ];
+  networking.firewall.allowedUDPPorts = [ 53317 ];
+```
+
+### Keyboard Layout Customization
+
+```nix
+ # Configure keymap in X11
+  services.xserver.xkb = {
+    layout = "us,ara";
+    variant = ",";
+  };
+```
+and restart
+
+Don't forget to set shortcut for switching layouts in the settings
+
+or you can add **(NOT Working)**
+```nix
+xkbOptions = "grp:alt_shift_toggle";  # Alt + Shift
+xkbOptions = "grp:win_space_toggle";  # Win + Space
 ```
