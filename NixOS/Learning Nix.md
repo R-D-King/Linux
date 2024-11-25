@@ -6,8 +6,14 @@ sudo nixos-rebuild switch --upgrade
 
 ### Rollbacks
 ```bash
-nixos-rebuild switch --rollback
+sudo nixos-rebuild switch --rollback
 ```
+
+```bash
+sudo nix-channel --rollback N
+```
+reverts channels to generation N.
+
 
 ### Safe to test changes
 
@@ -109,7 +115,7 @@ mkdir -p ~/.config/nixpkgs
 echo “{ allowUnfree = true; }” >> ~/.config/nixpkgs/config.nix
 ```
 
-### LocalSend
+## LocalSend
 you need to open the port to send and receive files
 ```nix
 # Open ports in the firewall.
@@ -134,4 +140,22 @@ or you can add **(NOT Working)**
 ```nix
 xkbOptions = "grp:alt_shift_toggle";  # Alt + Shift
 xkbOptions = "grp:win_space_toggle";  # Win + Space
+```
+
+
+## Flatpak
+
+To install Flatpak
+```nix
+services.flatpak.enable = true;
+```
+for none GNOME add:
+```nix
+xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+xdg.portal.config.common.default = "gtk";
+xdg.portal.enable = true;
+```
+
+```bash
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 ```
