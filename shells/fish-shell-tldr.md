@@ -8,6 +8,10 @@ YOUTUBE: https://youtu.be/QR5pANw7ZH4
 ```
 sudo dnf install fish
 ```
+> OpenSUSE
+```
+sudo zypper in fish
+```
 
 > ARCO
 ```
